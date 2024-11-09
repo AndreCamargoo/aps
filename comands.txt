@@ -1,0 +1,18 @@
+# 1. Criar um ambiente virtual Python chamado "myenv"
+python3 -m venv myenv
+
+# 2. Ativar o ambiente virtual
+# No Linux/MacOS
+source myenv/bin/activate
+
+# No Windows, você usaria o seguinte comando no terminal:
+# myenv\Scripts\activate
+
+# Após ativar o ambiente virtual, você verá o nome do ambiente (myenv) no prompt do terminal, indicando que ele está ativo.
+
+# 3. Instalar as dependências do projeto a partir do arquivo requirements.txt
+# (certifique-se de ter um arquivo requirements.txt com as dependências do seu projeto)
+pip install -r requirements.txt
+
+# 4. Desativar o ambiente virtual quando terminar o trabalho
+deactivate
