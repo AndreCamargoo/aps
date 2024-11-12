@@ -32,7 +32,7 @@ class RabbitMQPublisher:
 
         # Declarando a exchange do tipo 'fanout' e durável
         channel.exchange_declare(
-            exchange=self.__exchange, # Nome da exchange
+            exchange=self.__exchange,  # Nome da exchange
             exchange_type='fanout', # Tipo da exchange
             durable=True # Durável
         )
@@ -47,23 +47,25 @@ class RabbitMQPublisher:
                 delivery_mode=2  # Tornando a mensagem persistente
             )
         )
-        #print("Mensagem enviada...")
 
-def main(password, message):
+def main(password, name, message, cor):
     rabbitMq_publisher = RabbitMQPublisher()
     
     # Criptografar a mensagem
     iv, encrypted_message, salt = encrypt.encrypt_message(message, password)
     
-    # Preparar a mensagem a ser enviada
+    # Preparar a mensagem a ser enviada, incluindo o nome
     message_to_send = {
+        'name': name,  # Inclui o nome
         'iv': iv.hex(),  # Convertendo para hexadecimal
         'salt': salt.hex(),
-        'encrypted_message': encrypted_message.hex()
+        'encrypted_message': encrypted_message.hex(),
+        'cor': cor  # Passando a cor para a mensagem
     }
     
     # Enviar a mensagem criptografada
     rabbitMq_publisher.send_message(message_to_send)
+
 
 if __name__ == "__main__":
     pass  # Não há necessidade de código executável aqui diretamente.

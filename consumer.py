@@ -74,16 +74,20 @@ def queue_callback(ch, method, properties, body, passEncrypt):
     iv = bytes.fromhex(message['iv'])
     salt = bytes.fromhex(message['salt'])
     encrypted_message = bytes.fromhex(message['encrypted_message'])
+    name = message['name']  # Obtendo o nome da mensagem
+    cor = message['cor']  # Obtendo a cor da mensagem
 
     # A senha está sendo passada corretamente para a função de descriptografar
     password = passEncrypt
 
     # Descriptografando a mensagem
-    decrypted_message = encrypt.decrypt_message(encrypted_message, password, iv, salt)
-    
-    print("Mensagem recebida (decriptografada):", decrypted_message)
+    try:
+        decrypted_message = encrypt.decrypt_message(encrypted_message, password, iv, salt)
+        print(cor + f"{name}: {decrypted_message}")
+    except ValueError:
+        print("Não foi possível abrir essa mensagem. A senha pode estar incorreta ou a mensagem está corrompida.")
 
-def main(passEncrypt):
+def main(passEncrypt, exibir_mensagem_com_cor, cor):
     rabbitMq_consumer = RabbitMQConsumer(queue_callback, passEncrypt)
     rabbitMq_consumer.start()
 
